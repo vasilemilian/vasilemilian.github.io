@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Emilian Stoica — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F8F7F4;
+      --ink:       #1A1A1A;
+      --slate:     #2D4A6B;
+      --muted:     #8B8680;
+      --amber:     #C8923A;
+      --border:    #E0DDD8;
+      --card-bg:   #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      background: var(--slate);
+      color: #fff;
+      padding: 3rem 2rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    .avatar-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .avatar {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -1px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .sidebar-role {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+    }
+
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .sidebar-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--amber);
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-item:hover { color: #fff; }
+
+    .contact-icon {
+      width: 14px;
+      flex-shrink: 0;
+      opacity: 0.6;
+    }
+
+    .skill-tag {
+      display: inline-block;
+      padding: 0.25rem 0.6rem;
+      background: rgba(255,255,255,0.1);
+      border-radius: 3px;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.85);
+      margin: 0.2rem 0.2rem 0 0;
+    }
+
+    .lang-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.8);
+      padding: 0.25rem 0;
+    }
+    .lang-level {
+      font-size: 0.7rem;
+      color: var(--amber);
+      font-weight: 500;
+    }
+
+    nav { display: flex; flex-direction: column; gap: 0.35rem; margin-top: auto; }
+    nav a {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.55);
+      text-decoration: none;
+      padding: 0.25rem 0;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #fff; }
+
+    /* ── MAIN CONTENT ── */
+    .main {
+      padding: 4rem 4rem 6rem;
+      max-width: 780px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      padding-bottom: 3.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4rem;
+      overflow: hidden;
+    }
+
+    .hero-watermark {
+      position: absolute;
+      right: -0.5rem;
+      top: -1.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 9rem;
+      font-weight: 700;
+      color: rgba(45,74,107,0.06);
+      line-height: 1;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--amber);
+      margin-bottom: 1rem;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--slate);
+    }
+
+    .hero-bio {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: #3a3a3a;
+      max-width: 580px;
+      margin-bottom: 2rem;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.4rem;
+      background: var(--slate);
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .hero-cta:hover { background: #1e3452; transform: translateY(-1px); }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 4rem; }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── TIMELINE ── */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+
+    .tl-item {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 1.5rem;
+      padding: 1.75rem 0;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+    }
+    .tl-item:last-child { border-bottom: none; }
+
+    .tl-date {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--muted);
+      padding-top: 0.2rem;
+      text-align: right;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tl-content {}
+    .tl-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--ink);
+      margin-bottom: 0.2rem;
+    }
+    .tl-org {
+      font-size: 0.82rem;
+      color: var(--slate);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .tl-desc {
+      font-size: 0.85rem;
+      color: #555;
+      line-height: 1.65;
+    }
+
+    /* ── PROJECT CARDS ── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .project-card:hover {
+      border-color: var(--slate);
+      box-shadow: 0 4px 16px rgba(45,74,107,0.1);
+      transform: translateY(-2px);
+    }
+
+    .project-type {
+      font-size: 0.65rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--amber);
+    }
+
+    .project-title {
+      font-weight: 600;
+      font-size: 0.92rem;
+      color: var(--ink);
+    }
+
+    .project-desc {
+      font-size: 0.8rem;
+      color: #666;
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.25rem;
+    }
+
+    .ptag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      background: rgba(45,74,107,0.07);
+      color: var(--slate);
+      border-radius: 2px;
+      font-weight: 500;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+        height: auto;
+      }
+      .main {
+        padding: 2.5rem 1.5rem 4rem;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .tl-item {
+        grid-template-columns: 80px 1fr;
+        gap: 1rem;
+      }
+      .hero-watermark { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+
+    <div class="avatar-wrap">
+      <div class="avatar">ES</div>
+      <div>
+        <div class="sidebar-name">Emilian Stoica</div>
+        <div class="sidebar-role">Economics &amp; AI Strategy</div>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Contatti</div>
+      <a class="contact-item" href="mailto:emilian@example.com">
+        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        emilian@example.com
+      </a>
+      <a class="contact-item" href="https://github.com/emilianstoica" target="_blank">
+        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        github.com/emilianstoica
+      </a>
+      <a class="contact-item" href="https://linkedin.com/in/emilianstoica" target="_blank">
+        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        LinkedIn
+      </a>
+      <a class="contact-item" href="#">
+        <svg class="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Roma, Italia
+      </a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Competenze</div>
+      <div>
+        <span class="skill-tag">AI Strategy</span>
+        <span class="skill-tag">NLP / LLM</span>
+        <span class="skill-tag">Business Law</span>
+        <span class="skill-tag">Entrepreneurship</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">Data Analysis</span>
+        <span class="skill-tag">Cybersecurity</span>
+        <span class="skill-tag">Side-Channel</span>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-label">Lingue</div>
+      <div class="lang-row"><span>Italiano</span><span class="lang-level">Fluente</span></div>
+      <div class="lang-row"><span>Inglese</span><span class="lang-level">C1</span></div>
+      <div class="lang-row"><span>Rumeno</span><span class="lang-level">Madrelingua</span></div>
+    </div>
+
+    <nav>
+      <a href="#formazione">Formazione</a>
+      <a href="#progetti">Progetti</a>
+      <a href="#esperienze">Esperienze</a>
+    </nav>
+
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <main class="main">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-watermark">ES</div>
+      <div class="hero-eyebrow">Portfolio — 2025</div>
+      <h1 class="hero-title">
+        Dove economia,<br/>
+        <em>intelligenza artificiale</em><br/>
+        e diritto si incontrano.
+      </h1>
+      <p class="hero-bio">
+        Sono uno studente magistrale con un percorso che attraversa economia dell'innovazione, strategie AI e diritto privato. Mi interessa costruire ponti tra la complessità tecnica e quella istituzionale, con un'attenzione particolare alle implicazioni economiche dei sistemi intelligenti.
+      </p>
+      <a class="hero-cta" href="mailto:emilian@example.com">
+        Scrivimi
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </section>
+
+    <!-- Formazione -->
+    <section class="section" id="formazione">
+      <div class="section-header">
+        <h2 class="section-title">Formazione</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">2024 — oggi</div>
+          <div class="tl-content">
+            <div class="tl-title">LM in Economia e Management</div>
+            <div class="tl-org">Luiss Guido Carli, Roma</div>
+            <div class="tl-desc">Curriculum in Entrepreneurship &amp; Innovation. Focus su AI strategy, diritto dell'impresa e modelli di business scalabili. In valutazione: Harvard Graduate Certificate nell'ambito di un percorso dual-track internazionale.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2024 — oggi</div>
+          <div class="tl-content">
+            <div class="tl-title">Corso in AI e Language Technologies</div>
+            <div class="tl-org">Università degli Studi Guglielmo Marconi</div>
+            <div class="tl-desc">Architettura Transformer, fine-tuning, RAG, RLHF e deployment enterprise di modelli linguistici. Preparazione all'esame orale con focus applicativo.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2020 — 2024</div>
+          <div class="tl-content">
+            <div class="tl-title">Laurea Triennale in Fisica Applicata</div>
+            <div class="tl-org">— (precedente ateneo)</div>
+            <div class="tl-desc">Tesi teorica sugli attacchi side-channel: analisi di emissioni elettromagnetiche e power analysis su hardware embedded, con modellazione matematica e fisica rigorosa. Riferimenti: Mangard et al., Kocher DPA.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progetti -->
+    <section class="section" id="progetti">
+      <div class="section-header">
+        <h2 class="section-title">Progetti</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="projects-grid">
+        <a class="project-card" href="#" target="_blank">
+          <div class="project-type">Ricerca</div>
+          <div class="project-title">Side-Channel Attacks su ARM Cortex-M</div>
+          <div class="project-desc">Modello analitico delle emissioni EM e power leakage su microcontrollori embedded. Implementazione teorica di DPA e correlazione su AES-128.</div>
+          <div class="project-tags">
+            <span class="ptag">Fisica</span>
+            <span class="ptag">Cybersecurity</span>
+            <span class="ptag">C</span>
+          </div>
+        </a>
+        <a class="project-card" href="#" target="_blank">
+          <div class="project-type">Case Study</div>
+          <div class="project-title">AI Innovation Canvas — Analisi settoriale</div>
+          <div class="project-desc">Applicazione del framework AI Innovation Canvas a tre industry verticali. Mappatura del lifecycle di innovazione AI e gap strategici.</div>
+          <div class="project-tags">
+            <span class="ptag">AI Strategy</span>
+            <span class="ptag">Design Thinking</span>
+          </div>
+        </a>
+        <a class="project-card" href="#" target="_blank">
+          <div class="project-type">Studio</div>
+          <div class="project-title">RAG per documenti legali in italiano</div>
+          <div class="project-desc">Prototipo di sistema Retrieval-Augmented Generation applicato al Codice Civile italiano. Chunking semantico e reranking con LLM.</div>
+          <div class="project-tags">
+            <span class="ptag">NLP</span>
+            <span class="ptag">Python</span>
+            <span class="ptag">LangChain</span>
+          </div>
+        </a>
+        <a class="project-card" href="#" target="_blank">
+          <div class="project-type">Analisi</div>
+          <div class="project-title">Startup Valuation — Metodologie a confronto</div>
+          <div class="project-desc">Confronto tra metodo DCF, Berkus e Scorecard in fase early-stage. Applicazione a tre startup del settore deep-tech.</div>
+          <div class="project-tags">
+            <span class="ptag">Finance</span>
+            <span class="ptag">Entrepreneurship</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Esperienze -->
+    <section class="section" id="esperienze">
+      <div class="section-header">
+        <h2 class="section-title">Esperienze</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-date">2024</div>
+          <div class="tl-content">
+            <div class="tl-title">Assistente di Ricerca — AI &amp; Policy</div>
+            <div class="tl-org">Progetto accademico, Luiss</div>
+            <div class="tl-desc">Supporto alla raccolta e sintesi di letteratura su AI governance, regolamento europeo AI Act e modelli di compliance per PMI.</div>
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-date">2023</div>
+          <div class="tl-content">
+            <div class="tl-title">Collaboratore — Laboratorio Sicurezza Informatica</div>
+            <div class="tl-org">Ateneo precedente</div>
+            <div class="tl-desc">Sviluppo di script di acquisizione dati per analisi di tracce di potenza. Contributo alla stesura di documentazione tecnica su attacchi DPA.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+</body>
+</html>
