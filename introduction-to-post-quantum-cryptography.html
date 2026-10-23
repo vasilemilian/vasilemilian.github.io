@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Introduction to Post-Quantum Cryptography — Emilian Vasile</title>
+  <meta name="description" content="Why quantum computers threaten RSA and elliptic-curve cryptography, what post-quantum cryptography is, the new NIST standards (ML-KEM, ML-DSA, SLH-DSA), and how organizations should start migrating." />
+  <meta name="keywords" content="post-quantum cryptography, PQC, Shor's algorithm, Grover, ML-KEM, ML-DSA, SLH-DSA, NIST, harvest now decrypt later, crypto-agility" />
+  <meta name="author" content="Emilian Vasile" />
+  <link rel="canonical" href="https://emilianvasile-security.com/posts/introduction-to-post-quantum-cryptography.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Introduction to Post-Quantum Cryptography" />
+  <meta property="og:description" content="Why quantum computers threaten today's public-key cryptography, and what replaces it." />
+  <meta property="og:url" content="https://emilianvasile-security.com/posts/introduction-to-post-quantum-cryptography.html" />
+  <meta property="og:image" content="https://emilianvasile-security.com/image-2.png" />
+  <meta property="article:published_time" content="2026-10-23" />
+  <meta property="article:author" content="Emilian Vasile" />
+  <meta name="twitter:card" content="summary" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Introduction to Post-Quantum Cryptography",
+    "description": "Why quantum computers threaten RSA and elliptic-curve cryptography, what post-quantum cryptography is, the new NIST standards, and how to start migrating.",
+    "datePublished": "2026-10-23",
+    "dateModified": "2026-10-23",
+    "inLanguage": "en",
+    "keywords": "post-quantum cryptography, Shor's algorithm, ML-KEM, ML-DSA, SLH-DSA, NIST, crypto-agility",
+    "author": { "@type": "Person", "name": "Emilian Vasile", "url": "https://emilianvasile-security.com/" },
+    "publisher": { "@type": "Person", "name": "Emilian Vasile" },
+    "image": "https://emilianvasile-security.com/image-2.png",
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "https://emilianvasile-security.com/posts/introduction-to-post-quantum-cryptography.html" },
+    "isPartOf": { "@type": "Blog", "@id": "https://emilianvasile-security.com/blog.html" }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0E1117; --surface: #161B25; --border: #1F2937;
+      --ink: #E8EAF0; --muted: #6B7280; --body: #B4BAC6; --green: #00D084;
+      --green-dim: #00D08422; --amber: #F59E0B;
+      --font-sans: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); line-height: 1.6; }
+    .layout { display: grid; grid-template-columns: 300px 1fr; min-height: 100vh; }
+    .sidebar {
+      background: var(--surface); border-right: 1px solid var(--border);
+      padding: 2.5rem 1.75rem; position: sticky; top: 0; height: 100vh;
+      overflow-y: auto; display: flex; flex-direction: column; gap: 2rem;
+    }
+    .profile { display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+    .avatar { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--green); box-shadow: 0 0 24px rgba(0,208,132,0.15); object-fit: cover; }
+    .profile-name { font-size: 1.3rem; font-weight: 700; }
+    .profile-role { font-family: var(--font-mono); font-size: 0.7rem; color: var(--green); }
+    .sb-section { display: flex; flex-direction: column; gap: 0.5rem; }
+    .sb-label { font-family: var(--font-mono); font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--green); padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .toc a { font-size: 0.78rem; color: var(--muted); text-decoration: none; display: block; padding: 0.15rem 0; transition: color 0.2s; }
+    .toc a:hover { color: var(--green); }
+    nav { display: flex; flex-direction: column; gap: 0.3rem; margin-top: auto; }
+    nav a { font-size: 0.78rem; color: var(--muted); text-decoration: none; padding: 0.3rem 0; transition: color 0.2s; font-family: var(--font-mono); }
+    nav a:hover, nav a.active { color: var(--green); }
+
+    .main { padding: 3.5rem 3.5rem 6rem; max-width: 820px; min-width: 0; }
+    .back { font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted); text-decoration: none; display: inline-block; margin-bottom: 2rem; }
+    .back:hover { color: var(--green); }
+    .post-header { padding-bottom: 2rem; margin-bottom: 2.5rem; border-bottom: 1px solid var(--border); }
+    .post-meta { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .post-date, .post-read { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); }
+    .post-category { font-family: var(--font-mono); font-size: 0.65rem; padding: 0.15rem 0.5rem; background: var(--green-dim); color: var(--green); border-radius: 2px; }
+    h1 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+    .lede { font-size: 1.02rem; color: var(--body); line-height: 1.75; }
+
+    article h2 { font-size: 1.25rem; font-weight: 600; margin: 2.75rem 0 1rem; scroll-margin-top: 1.5rem; }
+    article h2::before { content: '## '; font-family: var(--font-mono); color: var(--green); font-size: 0.9rem; }
+    article h3 { font-size: 1rem; font-weight: 600; margin: 1.75rem 0 0.6rem; }
+    article p, article li { font-size: 0.93rem; color: var(--body); line-height: 1.8; }
+    article p { margin-bottom: 1rem; }
+    article ul, article ol { margin: 0 0 1rem 1.2rem; }
+    article li { margin-bottom: 0.4rem; }
+    article strong { color: var(--ink); font-weight: 600; }
+    article a { color: var(--green); text-decoration: none; border-bottom: 1px solid rgba(0,208,132,0.35); }
+    article a:hover { border-bottom-color: var(--green); }
+    code { font-family: var(--font-mono); font-size: 0.82em; background: var(--surface); border: 1px solid var(--border); padding: 0.05rem 0.35rem; border-radius: 3px; color: var(--ink); }
+    pre { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.1rem 1.25rem; margin: 0 0 1.25rem; overflow-x: auto; }
+    pre code { background: none; border: none; padding: 0; font-size: 0.8rem; line-height: 1.75; color: var(--body); }
+    pre .c { color: var(--muted); }
+    pre .g { color: var(--green); }
+    .callout { border-left: 2px solid var(--amber); background: rgba(245,158,11,0.07); padding: 0.9rem 1.1rem; border-radius: 0 6px 6px 0; margin: 0 0 1.25rem; }
+    .callout p { margin: 0; }
+    .callout-label { font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--amber); display: block; margin-bottom: 0.3rem; }
+    .formula { font-family: var(--font-mono); text-align: center; font-size: 1rem; color: var(--green); padding: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; margin: 0 0 1.25rem; }
+    .table-wrap { overflow-x: auto; margin: 0 0 1.25rem; border: 1px solid var(--border); border-radius: 6px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 520px; }
+    th { text-align: left; font-family: var(--font-mono); font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green); background: var(--surface); padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--border); }
+    td { padding: 0.7rem 0.9rem; border-bottom: 1px solid var(--border); color: var(--body); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    td.status-ok { color: var(--green); font-family: var(--font-mono); font-size: 0.72rem; }
+    td.status-wip { color: var(--amber); font-family: var(--font-mono); font-size: 0.72rem; }
+    .post-footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.82rem; color: var(--muted); line-height: 1.7; }
+    .post-footer a { color: var(--green); text-decoration: none; }
+    .refs { margin-top: 1rem; }
+    .refs li { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.3rem; }
+
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; height: auto; padding: 1.5rem 1.25rem; gap: 1.25rem; }
+      .sb-toc { display: none; }
+      .main { padding: 2rem 1rem 4rem; }
+    }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="profile">
+      <img class="avatar" src="../image-2.png" alt="Emilian Vasile" />
+      <div>
+        <div class="profile-name">Emilian Vasile</div>
+        <div class="profile-role">// cybersecurity_engineer</div>
+      </div>
+    </div>
+
+    <div class="sb-section sb-toc">
+      <div class="sb-label">On this page</div>
+      <div class="toc">
+        <a href="#problem">The problem</a>
+        <a href="#shor">What Shor's algorithm breaks</a>
+        <a href="#grover">What Grover's algorithm weakens</a>
+        <a href="#hndl">Harvest now, decrypt later</a>
+        <a href="#pqc-vs-qc">Post-quantum ≠ quantum crypto</a>
+        <a href="#families">Mathematical families</a>
+        <a href="#standards">The NIST standards</a>
+        <a href="#migration">How to start migrating</a>
+      </div>
+    </div>
+
+    <nav>
+      <a href="../index.html">// home</a>
+      <a href="../blog.html" class="active">// blog &amp; publications</a>
+      <a href="../index.html#experience">// work_experience</a>
+      <a href="../index.html#education">// education</a>
+      <a href="../index.html#certs">// certifications</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <a class="back" href="../blog.html">← cd ../publications</a>
+
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="post-date">Oct 2026</span>
+        <span class="post-category">Cryptography</span>
+        <span class="post-read">10 min read</span>
+      </div>
+      <h1>Introduction to Post-Quantum Cryptography</h1>
+      <p class="lede">Almost every secure connection on the internet relies on two mathematical problems that a large enough quantum computer could solve. This article explains why, what is replacing today's public-key algorithms, and what organizations should be doing about it now. It is based on the research I carried out for my bachelor's thesis.</p>
+    </header>
+
+    <article>
+
+      <h2 id="problem">The problem in one paragraph</h2>
+      <p>Public-key cryptography is what lets two parties who have never met agree on a secret key, and what lets a server prove its identity with a certificate. In practice it rests on two families of algorithms: <strong>RSA</strong>, whose security depends on how hard it is to factor a large number into its two primes, and <strong>elliptic-curve cryptography</strong> (ECDH, ECDSA, Ed25519), which depends on the hardness of the discrete logarithm problem. For classical computers both problems are, for well-chosen parameters, out of reach. For a sufficiently large, error-corrected quantum computer they are not.</p>
+
+      <h2 id="shor">What Shor's algorithm breaks</h2>
+      <p>In 1994 Peter Shor showed that a quantum computer can factor integers and compute discrete logarithms in polynomial time. It is worth being precise here: factoring and the discrete logarithm are <strong>different mathematical problems</strong>. What they have in common is that both can be reduced to <strong>finding the period of a function</strong>, and period-finding is exactly what a quantum computer does well.</p>
+      <p>For factoring, the idea is to pick a random <code>a</code> and look at the function <code>f(x) = aˣ mod N</code>. That function repeats with some period <code>r</code>. Classically, finding <code>r</code> takes exponential time. A quantum computer puts the input register in a superposition of all values of <code>x</code>, evaluates <code>f</code> on all of them at once, and then applies the <strong>Quantum Fourier Transform</strong>, which makes the amplitudes interfere so that measurement returns information about <code>r</code> with high probability. The QFT does not check a candidate period; it <em>extracts</em> it from the interference pattern.</p>
+      <p>Once the period is known, the rest is classical arithmetic. The textbook example with <code>N = 15</code>:</p>
+<pre><code><span class="c"># N = 15, choose a = 7 (coprime with 15)</span>
+7¹ mod 15 = 7
+7² mod 15 = 4
+7³ mod 15 = 13
+7⁴ mod 15 = 1      <span class="c"># the sequence repeats → period r = 4</span>
+
+<span class="c"># r is even, so compute a^(r/2) = 7² = 49</span>
+gcd(49 − 1, 15) = gcd(48, 15) = <span class="g">3</span>
+gcd(49 + 1, 15) = gcd(50, 15) = <span class="g">5</span>
+
+<span class="c"># 15 = 3 × 5 — the private key of a (toy) RSA modulus is recovered</span></code></pre>
+      <p>With real 2048-bit moduli the quantum part is enormously harder to build, but the logic is identical. The same machinery applied to the discrete logarithm breaks Diffie-Hellman and every elliptic-curve scheme in use today. Unlike most attacks, this one cannot be fixed by using bigger keys: Shor's algorithm scales polynomially, so key sizes would have to grow impractically large.</p>
+
+      <h2 id="grover">What Grover's algorithm weakens</h2>
+      <p>Symmetric cryptography (AES, ChaCha20) and hash functions (SHA-2, SHA-3) are in a much better position. The relevant quantum attack is <strong>Grover's algorithm</strong>, which speeds up brute-force search quadratically: searching 2ⁿ keys takes roughly 2ⁿᐟ² quantum operations. In theory, AES-128 drops to about 64 bits of security.</p>
+      <p>The fix is simply to <strong>compensate with larger parameters</strong>: AES-256 keeps a comfortable margin even against Grover, and in practice Grover is also hard to parallelize, so the real-world speedup is smaller than the theoretical one. Symmetric crypto needs tuning, not replacement. The real emergency is public-key crypto.</p>
+
+      <h2 id="hndl">Why it matters before quantum computers exist</h2>
+      <p>No quantum computer today can break RSA-2048. So why act now? Because of <strong>"harvest now, decrypt later"</strong>: an attacker can record encrypted traffic today and store it until a cryptographically relevant quantum computer becomes available. Any data that must stay confidential for many years (health records, state secrets, intellectual property, long-term credentials) is already exposed.</p>
+      <p>Michele Mosca summarized the decision with a simple inequality:</p>
+      <div class="formula">x + y &gt; z  ⇒  you are already late</div>
+      <p>where <strong>x</strong> is how long your data must stay secret, <strong>y</strong> is how long your migration will take, and <strong>z</strong> is how long until a large quantum computer exists. Nobody knows <code>z</code> precisely, but <code>x</code> and <code>y</code> are often measured in many years, and large organizations historically need a decade or more to replace a cryptographic algorithm everywhere.</p>
+
+      <h2 id="pqc-vs-qc">Post-quantum is not quantum cryptography</h2>
+      <p>The two terms are often confused, and the difference is important:</p>
+      <ul>
+        <li><strong>Quantum cryptography</strong> (for example Quantum Key Distribution, QKD) <em>uses</em> quantum physics to exchange keys. It needs dedicated hardware such as fiber links or satellites, and it does not solve authentication on its own.</li>
+        <li><strong>Post-quantum cryptography</strong> (PQC) is ordinary software running on ordinary computers. It uses new mathematical problems that are believed to be hard <em>even for quantum computers</em>. It can be deployed over the existing internet, in TLS, VPNs, SSH and code signing.</li>
+      </ul>
+      <p>When security teams talk about "the quantum migration", they almost always mean PQC.</p>
+
+      <h2 id="families">The mathematical families behind PQC</h2>
+      <p>Post-quantum schemes are grouped by the hard problem they rely on:</p>
+      <ul>
+        <li><strong>Lattice-based</strong>: problems such as Learning With Errors (LWE) and its structured variants. Fast, with reasonably small keys; the basis of most new standards.</li>
+        <li><strong>Hash-based signatures</strong>: security reduces to the properties of a hash function, which is the most conservative assumption available. The trade-off is larger signatures.</li>
+        <li><strong>Code-based</strong>: based on decoding random error-correcting codes, an idea dating back to McEliece in 1978 and very well studied.</li>
+        <li><strong>Multivariate</strong> and <strong>isogeny-based</strong> schemes: smaller ecosystems, with several notable breaks.</li>
+      </ul>
+      <div class="callout">
+        <span class="callout-label">Lesson learned</span>
+        <p>In 2022 Castryck and Decru broke SIKE, an isogeny-based finalist, in about an hour on a single classical laptop. It was not a quantum attack at all. New hardness assumptions need years of public cryptanalysis, which is why standards bodies favor diversity and conservative designs.</p>
+      </div>
+
+      <h2 id="standards">The NIST standards</h2>
+      <p>After an open competition that started in 2016, NIST published the first three post-quantum standards in August 2024, with more on the way:</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Standard</th><th>Algorithm</th><th>Purpose</th><th>Family</th><th>Status</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>FIPS 203</td><td>ML-KEM (Kyber)</td><td>Key encapsulation / key exchange</td><td>Lattice</td><td class="status-ok">final · 2024</td></tr>
+            <tr><td>FIPS 204</td><td>ML-DSA (Dilithium)</td><td>Digital signatures</td><td>Lattice</td><td class="status-ok">final · 2024</td></tr>
+            <tr><td>FIPS 205</td><td>SLH-DSA (SPHINCS+)</td><td>Digital signatures</td><td>Hash-based</td><td class="status-ok">final · 2024</td></tr>
+            <tr><td>FIPS 206</td><td>FN-DSA (Falcon)</td><td>Compact signatures</td><td>Lattice</td><td class="status-wip">in progress</td></tr>
+            <tr><td>—</td><td>HQC</td><td>Backup key encapsulation</td><td>Code-based</td><td class="status-wip">selected 2025</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>ML-KEM</strong> is the one most people will meet first, because it replaces the key exchange in TLS. <strong>HQC</strong> was selected in March 2025 as a second KEM built on a different mathematical problem, so that a future break of lattices would not leave the world without a standard; its final standard is expected around 2027.</p>
+      <p>On the timeline, NIST's transition guidance (IR 8547) proposes deprecating RSA and elliptic-curve algorithms at the 112-bit security level after 2030 and disallowing them entirely after 2035.</p>
+
+      <h2 id="migration">How organizations should start migrating</h2>
+      <p>From an attack surface perspective, cryptography is an asset like any other: you cannot protect, or migrate, what you have not inventoried. A realistic starting plan looks like this:</p>
+      <ol>
+        <li><strong>Build a cryptographic inventory.</strong> Find where RSA, ECDH and ECDSA are used: TLS endpoints, VPNs, SSH, certificates and PKI, code signing, libraries and hardware such as HSMs and smart cards. External exposure (internet-facing TLS) is the easiest place to begin.</li>
+        <li><strong>Classify by data lifetime.</strong> Systems that protect data needing confidentiality for 10+ years go first, because of harvest-now-decrypt-later.</li>
+        <li><strong>Adopt hybrid key exchange.</strong> Combining a classical and a post-quantum algorithm (for example X25519 together with ML-KEM-768) means an attacker has to break both. Major browsers and CDNs already support hybrid key exchange in TLS 1.3, so this is deployable today.</li>
+        <li><strong>Design for crypto-agility.</strong> Avoid hard-coding algorithms. Systems that can swap primitives through configuration will survive both this migration and the next one.</li>
+        <li><strong>Ask vendors for their roadmap.</strong> Much of the cryptography in an organization lives in third-party products. Their PQC plans are part of your risk.</li>
+        <li><strong>Plan for size and performance.</strong> PQC keys and signatures are larger than elliptic-curve ones. Test the impact on handshakes, certificate chains, constrained devices and network middleboxes before rollout.</li>
+      </ol>
+
+      <h2>Conclusion</h2>
+      <p>The quantum threat to cryptography is not a question of <em>if</em> but of <em>when</em>, and for long-lived data the "when" is effectively now. The good news is that the solution exists: standardized, peer-reviewed post-quantum algorithms that run on today's hardware. The hard part is no longer mathematics but engineering: knowing where your cryptography lives and being able to change it.</p>
+
+      <div class="post-footer">
+        <p>This article is based on my bachelor's thesis, <em>Introduzione alla crittografia Post-Quantum</em> (Guglielmo Marconi University, 2026). Questions or feedback? <a href="mailto:vasilemilian00@gmail.com">Get in touch</a>.</p>
+        <ul class="refs">
+          <li>P. W. Shor, "Algorithms for quantum computation: discrete logarithms and factoring", FOCS 1994.</li>
+          <li>L. K. Grover, "A fast quantum mechanical algorithm for database search", STOC 1996.</li>
+          <li>NIST, FIPS 203, 204 and 205, August 2024.</li>
+          <li>NIST, IR 8547 (draft), "Transition to Post-Quantum Cryptography Standards".</li>
+          <li>W. Castryck, T. Decru, "An efficient key recovery attack on SIDH", EUROCRYPT 2023.</li>
+        </ul>
+      </div>
+    </article>
+  </main>
+</div>
+</body>
+</html>

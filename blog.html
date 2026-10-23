@@ -13,7 +13,7 @@
   <meta property="og:title" content="Blog & Publications — Emilian Vasile" />
   <meta property="og:description" content="Articles and research notes on cybersecurity, ethical hacking, and attack surface management." />
   <meta property="og:url" content="https://emilianvasile-security.com/blog.html" />
-  <meta property="og:image" content="https://emilianvasile-security.com/foto.jpg" />
+  <meta property="og:image" content="https://emilianvasile-security.com/image-2.png" />
 
   <script type="application/ld+json">
   {
@@ -26,7 +26,15 @@
       "name": "Emilian Vasile",
       "url": "https://emilianvasile-security.com/"
     },
-    "description": "Articles, research notes, and writeups on cybersecurity, ethical hacking, and attack surface management."
+    "description": "Articles, research notes, and writeups on cybersecurity, ethical hacking, and attack surface management.",
+    "blogPost": [
+      {
+        "@type": "BlogPosting",
+        "headline": "Introduction to Post-Quantum Cryptography",
+        "datePublished": "2026-10-23",
+        "url": "https://emilianvasile-security.com/posts/introduction-to-post-quantum-cryptography.html"
+      }
+    ]
   }
   </script>
 
@@ -114,7 +122,7 @@
 <div class="layout">
   <aside class="sidebar">
     <div class="profile">
-      <div class="avatar">EV</div>
+      <img class="avatar" src="image-2.png" alt="Emilian Vasile" />
       <div>
         <div class="profile-name">Emilian Vasile</div>
         <div class="profile-role">// cybersecurity_engineer</div>
@@ -124,12 +132,9 @@
     <div class="sb-section">
       <div class="sb-label">Filter by topic</div>
       <div class="tag-cloud">
-        <span class="tag active" onclick="filterPosts('all')">All</span>
-        <span class="tag" onclick="filterPosts('pentesting')">Pentesting</span>
-        <span class="tag" onclick="filterPosts('asm')">Attack Surface</span>
-        <span class="tag" onclick="filterPosts('tools')">Tools</span>
-        <span class="tag" onclick="filterPosts('research')">Research</span>
-        <span class="tag" onclick="filterPosts('writeup')">CTF Writeup</span>
+        <span class="tag active" onclick="filterPosts('all', this)">All</span>
+        <span class="tag" onclick="filterPosts('cryptography', this)">Cryptography</span>
+        <span class="tag" onclick="filterPosts('research', this)">Research</span>
       </div>
     </div>
 
@@ -151,51 +156,19 @@
 
     <div class="posts-grid" id="posts-grid">
 
-      <!-- ESEMPIO 1 — sostituisci con i tuoi articoli reali -->
-      <a class="post-card" href="#" data-tags="asm pentesting">
+      <a class="post-card" href="posts/introduction-to-post-quantum-cryptography.html" data-tags="cryptography research">
         <div class="post-meta">
-          <span class="post-date">Jun 2026</span>
-          <span class="post-category">Attack Surface</span>
-          <span class="post-read">5 min read</span>
+          <span class="post-date">Oct 2026</span>
+          <span class="post-category">Cryptography</span>
+          <span class="post-read">10 min read</span>
         </div>
-        <div class="post-title">Mapping the External Attack Surface of an Enterprise: a Practical Approach</div>
-        <div class="post-excerpt">A walkthrough of the methodology used in Attack Surface Management engagements, from asset discovery to risk prioritization.</div>
+        <div class="post-title">Introduction to Post-Quantum Cryptography</div>
+        <div class="post-excerpt">Why Shor's algorithm breaks RSA and elliptic-curve cryptography, what Grover means for AES, the new NIST standards (ML-KEM, ML-DSA, SLH-DSA), and a practical plan to start migrating. Based on my bachelor's thesis.</div>
         <div class="post-tags">
-          <span class="post-tag">ASM</span>
-          <span class="post-tag">Recon</span>
-          <span class="post-tag">Enterprise</span>
-        </div>
-      </a>
-
-      <!-- ESEMPIO 2 -->
-      <a class="post-card" href="#" data-tags="pentesting tools">
-        <div class="post-meta">
-          <span class="post-date">May 2026</span>
-          <span class="post-category">Pentesting</span>
-          <span class="post-read">8 min read</span>
-        </div>
-        <div class="post-title">Burp Suite Extensions I Use in Every Web Application Pentest</div>
-        <div class="post-excerpt">A curated list of Burp Suite plugins that save time and improve coverage during web application security assessments.</div>
-        <div class="post-tags">
-          <span class="post-tag">Burp Suite</span>
-          <span class="post-tag">Web Security</span>
-          <span class="post-tag">Tools</span>
-        </div>
-      </a>
-
-      <!-- ESEMPIO 3 -->
-      <a class="post-card" href="#" data-tags="research">
-        <div class="post-meta">
-          <span class="post-date">Mar 2026</span>
-          <span class="post-category">Research</span>
-          <span class="post-read">12 min read</span>
-        </div>
-        <div class="post-title">Side-Channel Attacks on Embedded Hardware: Power Analysis Fundamentals</div>
-        <div class="post-excerpt">An introduction to Differential Power Analysis (DPA) and Correlation Power Analysis (CPA) targeting AES-128 on ARM Cortex-M microcontrollers.</div>
-        <div class="post-tags">
-          <span class="post-tag">Side-Channel</span>
-          <span class="post-tag">Cryptography</span>
-          <span class="post-tag">Hardware</span>
+          <span class="post-tag">PQC</span>
+          <span class="post-tag">Shor</span>
+          <span class="post-tag">NIST</span>
+          <span class="post-tag">Crypto-agility</span>
         </div>
       </a>
 
@@ -204,9 +177,9 @@
 </div>
 
 <script>
-  function filterPosts(category) {
+  function filterPosts(category, el) {
     document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
-    event.target.classList.add('active');
+    el.classList.add('active');
     document.querySelectorAll('.post-card').forEach(card => {
       const tags = card.dataset.tags || '';
       card.style.display = (category === 'all' || tags.includes(category)) ? 'flex' : 'none';
