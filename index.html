@@ -7,7 +7,7 @@
   <!-- PRIMARY SEO -->
   <title>Emilian Vasile — Cybersecurity Engineer & Ethical Hacker</title>
   <meta name="description" content="Emilian Vasile is a Cybersecurity Engineer and CEH Master certified ethical hacker based in Rome, Italy. Analyst at Deloitte Consulting specializing in Attack Surface Management, penetration testing, and vulnerability assessment." />
-  <meta name="keywords" content="Emilian Vasile, cybersecurity, ethical hacker, CEH Master, penetration testing, attack surface management, Deloitte, Rome, Italy" />
+  <meta name="keywords" content="Emilian Vasile, cybersecurity, ethical hacker, CEH Master, post-quantum cryptography, penetration testing, attack surface management, Deloitte, Rome, Italy" />
   <meta name="author" content="Emilian Vasile" />
   <link rel="canonical" href="https://emilianvasile-security.com/" />
 
@@ -58,7 +58,19 @@
         "address": { "@type": "PostalAddress", "addressLocality": "Rome", "addressCountry": "IT" }
       }
     ],
+    "affiliation": {
+      "@type": "CollegeOrUniversity",
+      "name": "Universidad Europea de Madrid",
+      "address": { "@type": "PostalAddress", "addressLocality": "Madrid", "addressCountry": "ES" }
+    },
     "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "Bachelor's Degree in Computer Engineering — Cybersecurity",
+        "credentialCategory": "degree",
+        "dateCreated": "2026-09-30",
+        "recognizedBy": { "@type": "CollegeOrUniversity", "name": "Guglielmo Marconi University" }
+      },
       {
         "@type": "EducationalOccupationalCredential",
         "name": "Certified Ethical Hacker (CEH Master)",
@@ -74,7 +86,7 @@
     ],
     "knowsAbout": [
       "Penetration Testing", "Vulnerability Assessment", "Attack Surface Management",
-      "Network Security", "Cryptography", "SIEM", "Python", "Linux", "Metasploit", "Burp Suite"
+      "Network Security", "Cryptography", "Post-Quantum Cryptography", "SIEM", "Python", "Linux", "Metasploit", "Burp Suite"
     ],
     "knowsLanguage": ["Italian", "Romanian", "English", "Spanish", "Russian"],
     "sameAs": [
@@ -171,12 +183,17 @@
     .timeline { display: flex; flex-direction: column; }
     .tl-item { display: grid; grid-template-columns: 110px 1fr; gap: 1.5rem; padding: 1.5rem 0; border-bottom: 1px solid var(--border); position: relative; }
     .tl-item:last-child { border-bottom: none; }
-    .tl-date { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); padding-top: 0.25rem; text-align: right; line-height: 1.4; }
+    .tl-date { font-family: var(--font-mono); font-size: 0.68rem; color: var(--muted); padding-top: 0.25rem; padding-right: 0.9rem; text-align: right; line-height: 1.4; }
     .tl-dot { position: absolute; left: 110px; top: 1.85rem; width: 8px; height: 8px; border-radius: 50%; background: var(--green); transform: translateX(-50%); box-shadow: 0 0 8px rgba(0,208,132,0.5); }
     .tl-content { padding-left: 1rem; }
     .tl-title { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.15rem; }
     .tl-org { font-size: 0.78rem; color: var(--green); font-weight: 500; margin-bottom: 0.5rem; }
     .tl-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+    .tl-title .tag { margin-left: 0.5rem; vertical-align: middle; }
+    .tl-thesis { margin-top: 0.75rem; padding: 0.6rem 0.8rem; border-left: 2px solid var(--green); background: var(--green-dim); border-radius: 0 4px 4px 0; }
+    .tl-thesis-label { display: block; font-family: var(--font-mono); font-size: 0.65rem; color: var(--green); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.2rem; }
+    .tl-thesis-title { font-size: 0.85rem; font-weight: 600; color: var(--ink); }
+    .tl-thesis-sub { display: block; font-size: 0.75rem; color: var(--muted); font-style: italic; }
     .certs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
     .cert-card { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; transition: border-color 0.2s, box-shadow 0.2s; }
     .cert-card:hover { border-color: rgba(0,208,132,0.4); box-shadow: 0 0 16px rgba(0,208,132,0.07); }
@@ -279,7 +296,7 @@
     <section class="hero">
       <div class="hero-prompt">$ whoami</div>
       <h1 class="hero-title">Computer Science Engineer<br/>specializing in <span class="accent">Cybersecurity</span></h1>
-      <p class="hero-bio">I combine a solid engineering foundation with a focus on proactive IT infrastructure security. Currently working as Analyst in Attack Surface Management at Deloitte Consulting. CEH Master certified, with hands-on experience in penetration testing, vulnerability assessment, and security-by-design practices.</p>
+      <p class="hero-bio">I combine a solid engineering foundation with a focus on proactive IT infrastructure security. Currently working as Analyst in Attack Surface Management at Deloitte Consulting. CEH Master certified, with hands-on experience in penetration testing, vulnerability assessment, and security-by-design practices. I hold a Bachelor's degree in Computer Engineering (thesis on post-quantum cryptography) and I'm currently pursuing an MSc in Cybersecurity at Universidad Europea de Madrid.</p>
       <div class="cta-row">
         <a class="btn btn-primary" href="mailto:vasilemilian00@gmail.com">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
@@ -355,12 +372,26 @@
       </div>
       <div class="timeline">
         <div class="tl-item">
+          <div class="tl-date">2026<br/>Present</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-title">MSc in Cybersecurity <span class="tag">in progress</span></div>
+            <div class="tl-org">Universidad Europea de Madrid</div>
+            <div class="tl-desc">Official Master's degree (Máster Universitario) in Cybersecurity, started in September 2026.</div>
+          </div>
+        </div>
+        <div class="tl-item">
           <div class="tl-date">2024<br/>2026</div>
           <div class="tl-dot"></div>
           <div class="tl-content">
-            <div class="tl-title">Bachelor's Degree — IT Engineering &amp; Cybersecurity</div>
+            <div class="tl-title">Bachelor's Degree in Computer Engineering — Cybersecurity</div>
             <div class="tl-org">Guglielmo Marconi University, Rome</div>
-            <div class="tl-desc">Specialization in secure development, cryptography, network security, and information system defense through applied learning.</div>
+            <div class="tl-desc">Graduated in September 2026 (L-8, Cybersecurity curriculum). Focus on secure development, cryptography, network security, and information system defense.</div>
+            <div class="tl-thesis">
+              <span class="tl-thesis-label">Thesis</span>
+              <span class="tl-thesis-title">Introduction to Post-Quantum Cryptography</span>
+              <span class="tl-thesis-sub">Introduzione alla crittografia Post-Quantum</span>
+            </div>
           </div>
         </div>
         <div class="tl-item">
